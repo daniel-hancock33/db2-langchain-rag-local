@@ -79,7 +79,7 @@ graph TD
 ## Prerequisites
 
 - Python 3.13+
-- IBM Db2 12.1.2+
+- IBM Db2 12.1.5+
 - ~4GB disk space for models
 - 8GB+ RAM (32+ cores recommended for best performance)
 - CPU-only (no GPU required)
@@ -112,7 +112,7 @@ This lab uses a single virtual machine on an IBM Cloud environment. All required
 |---|---|
 | Db2 AI Advanced Edition (Single Partition) | 12.1.5 |
 
-**Pre-configured databases:** `demo_col`, `demo_row`, `REPODB` *(created on first Genius Hub login)*
+**Pre-configured databases:** `demo_col`, `demo_row`
 
 **Utility scripts:**
 
