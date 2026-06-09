@@ -248,16 +248,17 @@ touch .env
 Add the following (replace with your values):
 ```bash
 # IBM Db2 Configuration
-DB_NAME=your_database
-DB_HOST=hostname.example.com
-DB_PORT=50000
+DB_NAME=demo_row
+DB_HOST=localhost
+DB_PORT=25010
 DB_PROTOCOL=TCPIP
-DB_USER=your_username
-DB_PASSWORD=your_password
+DB_USER=db2demo
+DB_PASSWORD=Db2ghPassw0rd#1
 
 # Model Paths (MUST be absolute paths)
-LLM_PATH=/absolute/path/to/qwen2.5-3b-instruct-q4_k_m.gguf
-EMBEDDING_MODEL_PATH=/absolute/path/to/granite-embedding-30m-english-Q6_K.gguf
+MODEL_PATH=/more_storage/models
+LLM_PATH=${MODEL_PATH}/qwen2.5-3b-instruct-q4_k_m.gguf
+EMBEDDING_MODEL_PATH=${MODEL_PATH}/granite-embedding-30m-english-Q6_K.gguf
 ```
 
 ---
