@@ -22,7 +22,7 @@ cmake --build build --config Release -j$(nproc)
 
 2. Start llama server
 ```
-cd /more_storage/llama.cpp
+cd /more_storage/models/llama.cpp
 build/bin/llama-server -m granite-embedding-30m-english-Q6_K.gguf --embedding --pooling cls -ub 8192 --port 8082
 ```
 
