@@ -158,11 +158,10 @@ All SQL commands are run as the `db2demo` local user via the `db2` CLI.
 
 ### Step 6 — Connect to Db2
 
-Switch to the `db2demo` user and connect to the database.
+As the OS user `db2demo` connect to the database `DEMO_ROW`.
 
 ```bash
-su - db2demo
-db2 "CONNECT TO SAMPLE"
+db2 "CONNECT TO DEMO_ROW"
 ```
 
 ### Step 7 — Clean Up Any Existing Objects
