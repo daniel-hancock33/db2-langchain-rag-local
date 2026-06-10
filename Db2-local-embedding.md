@@ -13,6 +13,7 @@ This guide shows how to use **Db2's new EAP feature** for generating embeddings 
 ### 1. Start llama.cpp Server
 
 ```bash
+mkdir /more_storage/models/llama.cpp
 cd /more_storage/llama.cpp
 build/bin/llama-server -m granite-embedding-30m-english-Q6_K.gguf --embedding --pooling cls -ub 8192 --port 8082
 ```
