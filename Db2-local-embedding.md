@@ -19,7 +19,8 @@ cd llama.cpp
 cmake -B build
 cmake --build build --config Release -j$(nproc)
 ```
-1. Start llama server
+
+2. Start llama server
 ```
 cd /more_storage/llama.cpp
 build/bin/llama-server -m granite-embedding-30m-english-Q6_K.gguf --embedding --pooling cls -ub 8192 --port 8082
@@ -27,18 +28,18 @@ build/bin/llama-server -m granite-embedding-30m-english-Q6_K.gguf --embedding --
 
 Server will run on `http://127.0.0.1:8080`
 
-1. Connect to Db2:
+3. Connect to Db2:
 ```sql
 CONNECT TO SAMPLE;
 ```
 
-1. Drop table if it already exists:
+4. Drop table if it already exists:
 ```sql
 DROP EXTERNAL MODEL granite30;
 DROP TABLE ANSWERS;
 ```
 
-2. Create Table
+5. Create Table
 
 ```sql
 CREATE TABLE ANSWERS (
@@ -49,7 +50,7 @@ CREATE TABLE ANSWERS (
 );
 ```
 
-3. Insert Sample Data
+6. Insert Sample Data
 
 ```sql
 INSERT INTO ANSWERS (content, embedding) VALUES
@@ -60,7 +61,7 @@ INSERT INTO ANSWERS (content, embedding) VALUES
   ('Toronto lies along the edge of Lake Ontario, giving it a waterfront character.', NULL);
 ```
 
-4. Register External Model
+7. Register External Model
 
 ```sql
 CREATE EXTERNAL MODEL granite30 
@@ -70,7 +71,7 @@ TYPE TEXT_EMBEDDING RETURNING VECTOR(384, FLOAT32)
 URL 'http://127.0.0.1:8080/v1/embeddings';
 ```
 
-5. Generate Embeddings with TO_EMBEDDING()
+8. Generate Embeddings with TO_EMBEDDING()
 
 ```sql
 UPDATE ANSWERS SET embedding = TO_EMBEDDING(content USING granite30);
@@ -87,7 +88,7 @@ FROM ANSWERS
 FETCH FIRST 1 ROWS ONLY;
 ```
 
-6. Search with Vector Similarity
+9. Search with Vector Similarity
 
 ```sql
 SELECT 
