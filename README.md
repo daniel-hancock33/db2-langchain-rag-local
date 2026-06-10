@@ -253,6 +253,13 @@ EMBEDDING_MODEL_PATH=${MODEL_PATH}/granite-embedding-30m-english-Q6_K.gguf
 EOF
 ```
 
+### 5. Open Port 8888
+
+```bash
+sudo firewall-cmd --permanent --add-port=8888/tcp
+sudo firewall-cmd --reload
+```
+
 ---
 
 ## Usage
