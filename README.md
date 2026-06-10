@@ -269,8 +269,20 @@ sudo firewall-cmd --reload
 Activate your virtual environment and start the notebook:
 ```bash
 source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-jupyter notebook rag-basic.ipynb
+jupyter notebook rag-basic.ipynb --ip=0.0.0.0 --no-browser
 ```
+> Note: replace the URL with your external IP address
+
+**Example**
+```
+Jupyter Server 2.19.0 is running at:
+    http://itzvsi-25n17nqj:8888/tree?token=7bb063a8fc6d0c4a663782a04123e0fadb351ece4cab3f0d
+```
+Replace
+```
+    http://150.240.167.108/:8888/tree?token=7bb063a8fc6d0c4a663782a04123e0fadb351ece4cab3f0d
+```
+
 
 ### Ask Questions
 
