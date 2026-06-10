@@ -278,11 +278,12 @@ jupyter notebook rag-basic.ipynb --ip=0.0.0.0 --no-browser
 Jupyter Server 2.19.0 is running at:
     http://itzvsi-25n17nqj:8888/tree?token=7bb063a8fc6d0c4a663782a04123e0fadb351ece4cab3f0d
 ```
-Replace
+**Replace**
 ```
     http://150.240.167.108/:8888/tree?token=7bb063a8fc6d0c4a663782a04123e0fadb351ece4cab3f0d
 ```
 
+> Note: To get your IP run `ghinfo --system`.
 
 ### Ask Questions
 
