@@ -13,6 +13,7 @@ This guide shows how to use **Db2's new EAP feature** for generating embeddings 
 1. Build llama.cpp Server
 
 ```bash
+sudo dnf install cmake gcc g++ -y
 cd /more_storage/models
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
