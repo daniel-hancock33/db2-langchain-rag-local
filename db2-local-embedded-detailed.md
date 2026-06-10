@@ -41,9 +41,9 @@ cmake -B build
 cmake --build build --config Release -j$(nproc)
 ```
 
-### Step 4 — Start the Embedding Server
+### Step 4 — Open the Firewall Port
 
-Open the tcp port for the Embedded server
+Open the TCP port for the embedding server.
 
 ```bash
 sudo firewall-cmd --permanent --add-port=8082/tcp
@@ -71,59 +71,62 @@ build/bin/llama-server \
 
 ## Database Setup
 
+All SQL commands are run as the `db2demo` local user via the `db2` CLI.
+
 ### Step 6 — Connect to Db2
 
-Open a Db2 CLI session and connect to your database.
+Switch to the `db2demo` user and connect to the database.
 
-```sql
-CONNECT TO SAMPLE;
+```bash
+su - db2demo
+db2 "CONNECT TO SAMPLE"
 ```
 
 ### Step 7 — Clean Up Any Existing Objects
 
 Drop the external model and table if they exist from a previous run, to start fresh.
 
-```sql
-DROP EXTERNAL MODEL granite30;
-DROP TABLE ANSWERS;
+```bash
+db2 "DROP EXTERNAL MODEL granite30"
+db2 "DROP TABLE ANSWERS"
 ```
 
 ### Step 8 — Create the Vector Table
 
 Create a table to store text content alongside its vector embedding. The `embedding` column uses Db2's `VECTOR` type with 384 dimensions (matching Granite's output) and 32-bit float precision.
 
-```sql
-CREATE TABLE ANSWERS (
+```bash
+db2 "CREATE TABLE ANSWERS (
     id        INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
     content   CLOB(100),
     embedding VECTOR(384, FLOAT32),
     PRIMARY KEY (id)
-);
+)"
 ```
 
 ### Step 9 — Insert Sample Data
 
 Populate the table with sample sentences about Toronto. Embeddings are left `NULL` for now — they will be generated in a later step.
 
-```sql
-INSERT INTO ANSWERS (content, embedding) VALUES
+```bash
+db2 "INSERT INTO ANSWERS (content, embedding) VALUES
   ('Toronto is the most populated city in Canada, with millions of residents.', NULL),
   ('The skyline of Toronto is dominated by a tall observation tower visited by tourists worldwide.', NULL),
   ('The local basketball team became national champions in 2019, making the city proud.', NULL),
   ('Travelers flying internationally often depart from Pearson, the main airport of the city.', NULL),
-  ('Toronto lies along the edge of Lake Ontario, giving it a waterfront character.', NULL);
+  ('Toronto lies along the edge of Lake Ontario, giving it a waterfront character.', NULL)"
 ```
 
 ### Step 10 — Register the External Embedding Model
 
 Tell Db2 about the llama.cpp server using `CREATE EXTERNAL MODEL`. This registers the Granite model under the alias `granite30`, pointing to the running server's embeddings endpoint. The `PROVIDER OPENAI` clause means Db2 will use the OpenAI-compatible API format that llama.cpp exposes.
 
-```sql
-CREATE EXTERNAL MODEL granite30
+```bash
+db2 "CREATE EXTERNAL MODEL granite30
   PROVIDER OPENAI
   ID 'granite-embedding-30m-english-Q6_K.gguf'
   TYPE TEXT_EMBEDDING RETURNING VECTOR(384, FLOAT32)
-  URL 'http://127.0.0.1:8082/v1/embeddings';
+  URL 'http://127.0.0.1:8082/v1/embeddings'"
 ```
 
 ---
@@ -134,31 +137,26 @@ CREATE EXTERNAL MODEL granite30
 
 Use Db2's `TO_EMBEDDING()` EAP function to call the external model for each row. This sends each `content` value to the llama.cpp server and stores the returned vector back into the `embedding` column.
 
-```sql
-UPDATE ANSWERS SET embedding = TO_EMBEDDING(content USING granite30);
+```bash
+db2 "UPDATE ANSWERS SET embedding = TO_EMBEDDING(content USING granite30)"
 ```
 
-### Step 11 — Verify the Embeddings
+### Step 12 — Verify the Embeddings
 
 Confirm embeddings were stored by inspecting the first row. The vector is cast to VARCHAR and truncated for readability.
 
-```sql
-SELECT
-  id,
-  content,
-  SUBSTR(CAST(embedding AS VARCHAR(2000)), 1, 200) || '...' AS vector_sample
+```bash
+db2 "SELECT id, content, SUBSTR(CAST(embedding AS VARCHAR(2000)), 1, 200) || '...' AS vector_sample
 FROM ANSWERS
-FETCH FIRST 1 ROWS ONLY;
+FETCH FIRST 1 ROWS ONLY"
 ```
 
-### Step 12 — Run a Vector Similarity Search
+### Step 13 — Run a Vector Similarity Search
 
 Search for the most semantically similar rows to a natural language question. `TO_EMBEDDING()` converts the query string to a vector on the fly, then `VECTOR_DISTANCE()` computes Euclidean distance against all stored embeddings. Lower distance = more similar.
 
-```sql
-SELECT
-  id,
-  content AS CONTEXT,
+```bash
+db2 "SELECT id, content AS CONTEXT,
   VECTOR_DISTANCE(
     embedding,
     TO_EMBEDDING('Which towering structure shapes Toronto''s skyline and draws many visitors?' USING granite30),
@@ -166,7 +164,7 @@ SELECT
   ) AS DISTANCE
 FROM ANSWERS
 ORDER BY DISTANCE ASC
-FETCH FIRST 2 ROWS ONLY;
+FETCH FIRST 2 ROWS ONLY"
 ```
 
 ---
@@ -175,8 +173,8 @@ FETCH FIRST 2 ROWS ONLY;
 
 Remove the registered model when done. The table and data will persist unless explicitly dropped.
 
-```sql
-DROP EXTERNAL MODEL granite30;
+```bash
+db2 "DROP EXTERNAL MODEL granite30"
 ```
 
 ---
