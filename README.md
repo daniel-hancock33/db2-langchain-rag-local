@@ -197,13 +197,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source ~/.bashrc  # or ~/.bash_profile
 ```
 
-### 2. Start Db2
-
-```bash
-db2start
-```
-
-### 3. Download Models
+### 2. Download Models
 
 Navigate to your models directory:
 ```bash
@@ -222,23 +216,24 @@ wget -O qwen2.5-3b-instruct-q4_k_m.gguf \
   https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf
 ```
 
-### 4. Clone Repository
+### 3. Clone Repository
 
 ```bash
 git clone https://github.com/shaikhq/db2-langchain-rag-local.git
 cd db2-langchain-rag-local
 ```
 
-### 5. Set Up Environment & Dependencies
+### 4. Set Up Environment & Dependencies
 
 ```bash
-uv venv --python $(which python3.13)
+uv python install 3.13
+uv venv --python 3.13
 uv pip install -r requirements.txt
 uv pip install pip
 uv run python -m spacy download en_core_web_sm
 ```
 
-### 6. Configure Environment Variables
+### 5. Configure Environment Variables
 
 Create a `.env` file in the project root:
 ```bash
