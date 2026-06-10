@@ -275,7 +275,7 @@ Jupyter Server 2.19.0 is running at:
 ```
 **Replace**
 ```
-    http://150.240.167.108/:8888/tree?token=<your-token>
+    http://150.240.167.108:8888/tree?token=<your-token>
 ```
 
 > Note: To get your IP run `ghinfo --system`.
