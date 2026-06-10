@@ -119,11 +119,6 @@ This lab uses a single virtual machine on an IBM Cloud environment. All required
 | Script | Purpose |
 |---|---|
 | `ghinfo` | Display environment details |
-| `start-services.sh` | Start required services |
-| `ghstatus` | Check status of Db2 Genius Hub services |
-| `ghstart` | Start Db2 Genius Hub services |
-| `ghstop` | Stop Db2 Genius Hub services |
-| `ghrestart` | Restart Db2 Genius Hub services |
 
 ### Service Endpoints
 
