@@ -46,7 +46,7 @@ cmake --build build --config Release -j$(nproc)
 Open the tcp port for the Embedded server
 
 ```bash
-sudo firewall-cmd --permanent --add-port=8888/tcp
+sudo firewall-cmd --permanent --add-port=8082/tcp
 sudo firewall-cmd --reload
 ```
 
