@@ -43,6 +43,15 @@ cmake --build build --config Release -j$(nproc)
 
 ### Step 4 — Start the Embedding Server
 
+Open the tcp port for the Embedded server
+
+```bash
+sudo firewall-cmd --permanent --add-port=8888/tcp
+sudo firewall-cmd --reload
+```
+
+### Step 5 — Start the Embedding Server
+
 Launch llama.cpp as an OpenAI-compatible HTTP server. The `--embedding` flag enables the `/v1/embeddings` endpoint, `--pooling cls` uses CLS token pooling (required for Granite), and `-ub 8192` sets the batch size.
 
 ```bash
@@ -61,7 +70,7 @@ build/bin/llama-server \
 
 ## Database Setup
 
-### Step 5 — Connect to Db2
+### Step 6 — Connect to Db2
 
 Open a Db2 CLI session and connect to your database.
 
@@ -69,7 +78,7 @@ Open a Db2 CLI session and connect to your database.
 CONNECT TO SAMPLE;
 ```
 
-### Step 6 — Clean Up Any Existing Objects
+### Step 7 — Clean Up Any Existing Objects
 
 Drop the external model and table if they exist from a previous run, to start fresh.
 
@@ -78,7 +87,7 @@ DROP EXTERNAL MODEL granite30;
 DROP TABLE ANSWERS;
 ```
 
-### Step 7 — Create the Vector Table
+### Step 8 — Create the Vector Table
 
 Create a table to store text content alongside its vector embedding. The `embedding` column uses Db2's `VECTOR` type with 384 dimensions (matching Granite's output) and 32-bit float precision.
 
@@ -91,7 +100,7 @@ CREATE TABLE ANSWERS (
 );
 ```
 
-### Step 8 — Insert Sample Data
+### Step 9 — Insert Sample Data
 
 Populate the table with sample sentences about Toronto. Embeddings are left `NULL` for now — they will be generated in a later step.
 
@@ -104,7 +113,7 @@ INSERT INTO ANSWERS (content, embedding) VALUES
   ('Toronto lies along the edge of Lake Ontario, giving it a waterfront character.', NULL);
 ```
 
-### Step 9 — Register the External Embedding Model
+### Step 10 — Register the External Embedding Model
 
 Tell Db2 about the llama.cpp server using `CREATE EXTERNAL MODEL`. This registers the Granite model under the alias `granite30`, pointing to the running server's embeddings endpoint. The `PROVIDER OPENAI` clause means Db2 will use the OpenAI-compatible API format that llama.cpp exposes.
 
@@ -120,7 +129,7 @@ CREATE EXTERNAL MODEL granite30
 
 ## Generating & Querying Embeddings
 
-### Step 10 — Generate Embeddings with TO_EMBEDDING()
+### Step 11 — Generate Embeddings with TO_EMBEDDING()
 
 Use Db2's `TO_EMBEDDING()` EAP function to call the external model for each row. This sends each `content` value to the llama.cpp server and stores the returned vector back into the `embedding` column.
 
