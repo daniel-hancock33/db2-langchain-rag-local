@@ -61,7 +61,8 @@ build/bin/llama-server \
   --embedding \
   --pooling cls \
   -ub 8192 \
-  --port 8082
+  --port 8082 \
+  --host 0.0.0.0
 ```
 
 > Server will be available at `http://127.0.0.1:8082` — keep this running for all subsequent steps.
