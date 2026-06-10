@@ -235,13 +235,9 @@ uv run python -m spacy download en_core_web_sm
 
 ### 5. Configure Environment Variables
 
-Create a `.env` file in the project root:
+Add the following to .env:
 ```bash
-touch .env
-```
-
-Add the following (replace with your values):
-```bash
+cat > .env << 'EOF'
 # IBM Db2 Configuration
 DB_NAME=demo_row
 DB_HOST=localhost
@@ -254,6 +250,7 @@ DB_PASSWORD=Db2ghPassw0rd#1
 MODEL_PATH=/more_storage/models
 LLM_PATH=${MODEL_PATH}/qwen2.5-3b-instruct-q4_k_m.gguf
 EMBEDDING_MODEL_PATH=${MODEL_PATH}/granite-embedding-30m-english-Q6_K.gguf
+EOF
 ```
 
 ---
