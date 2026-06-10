@@ -14,7 +14,7 @@ This guide shows how to use **Db2's new EAP feature** for generating embeddings 
 
 ```bash
 cd /more_storage/llama.cpp
-build/bin/llama-server -m granite-embedding-30m-english-Q6_K.gguf --embedding --pooling cls -ub 8192
+build/bin/llama-server -m granite-embedding-30m-english-Q6_K.gguf --embedding --pooling cls -ub 8192 --port 8082
 ```
 
 Server will run on `http://127.0.0.1:8080`
