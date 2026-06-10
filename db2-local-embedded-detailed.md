@@ -4,6 +4,94 @@ This guide shows how to use **Db2's new EAP feature** for generating embeddings 
 
 ---
 
+## Lab Environment Setup
+
+### Environment Overview
+
+This lab uses a single virtual machine on an IBM Cloud environment. All required components are pre-installed.
+
+**Installed components:**
+
+| Component | Version |
+|---|---|
+| Db2 AI Advanced Edition (Single Partition) | 12.1.5 |
+
+**Pre-configured databases:** `demo_col`, `demo_row`
+
+**Utility scripts:**
+
+| Script | Purpose |
+|---|---|
+| `ghinfo` | Display environment details |
+| `start-services.sh` | Start required services |
+| `ghstatus` | Check status of Db2 Genius Hub services |
+| `ghstart` | Start Db2 Genius Hub services |
+| `ghstop` | Stop Db2 Genius Hub services |
+| `ghrestart` | Restart Db2 Genius Hub services |
+
+### Service Endpoints
+
+| Service | Endpoint |
+|---|---|
+| **Db2 Host (for Genius Hub)** | `localhost` |
+| **Db2 Host (for external tools)** | `YOUR-EXTERNAL-IP` |
+| **Db2 Port** | `25011` |
+| **SSH Access** | `ssh -i YOUR-FILE.pem YOUR-USER@YOUR-EXTERNAL-IP -p 2223` |
+
+> Replace `YOUR-FILE.pem`, `YOUR-USER`, and `YOUR-EXTERNAL-IP` with the values provided for your lab environment.
+
+### Default Credentials
+
+**Genius Hub UI:**
+
+| Field | Value |
+|---|---|
+| Username | `admin` |
+| Password | `Db2ghPassw0rd#1` |
+
+**Db2 Users** (all share the same password):
+
+| Username | Password |
+|---|---|
+| `db2inst1` | `Db2ghPassw0rd#1` |
+| `db2demo` | `Db2ghPassw0rd#1` |
+
+### SSH Access
+
+Your instructor will provide your VM's public IP address and a personal PEM key file (e.g., `student_01.pem`). All students connect as the `db2demo` user.
+
+**Step 1 — Set file permissions**
+
+*Mac/Linux:*
+```bash
+cd ~/Desktop
+chmod 600 student_01.pem
+```
+
+*Windows (PowerShell):*
+```powershell
+icacls student_01.pem /inheritance:r
+icacls student_01.pem /grant:r "%USERNAME%:F"
+```
+
+*Windows (GUI):* Right-click the `.pem` file → Properties → Security → Advanced → Disable inheritance → Remove all inherited permissions → Add your Windows username with Full control.
+
+**Step 2 — Connect**
+
+*Mac/Linux/Windows PowerShell:*
+```bash
+ssh -i student_01.pem db2demo@52.118.191.168 -p 2223
+```
+
+*Windows (PuTTY):* Convert your `.pem` to `.ppk` using PuTTYgen (File → Load → Save private key), then open PuTTY with Host = your IP, Port = `2223`, and your `.ppk` under Connection → SSH → Auth.
+
+On first connection, type `yes` when prompted about host authenticity. A successful login shows:
+```
+[db2demo@db2gh-demo ~]$
+```
+
+---
+
 ## Prerequisites
 
 - RHEL system with llama.cpp source at `/more_storage/models/llama.cpp`
