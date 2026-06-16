@@ -119,7 +119,7 @@ git clone https://github.com/ggerganov/llama.cpp
 Configure and compile the project. The `-j$(nproc)` flag parallelises the build across all available CPU cores to speed things up.
 
 ```bash
-cd /more_storage/models/llama.cpp
+cd /home/db2demo/db2-vector-lab/models/llama.cpp
 cmake -B build
 cmake --build build --config Release -j$(nproc)
 ```
@@ -138,9 +138,9 @@ sudo firewall-cmd --reload
 Launch llama.cpp as an OpenAI-compatible HTTP server. The `--embedding` flag enables the `/v1/embeddings` endpoint, `--pooling cls` uses CLS token pooling (required for Granite), and `-ub 8192` sets the batch size.
 
 ```bash
-cd /more_storage/models/llama.cpp
+cd /home/db2demo/db2-vector-lab/models/llama.cpp
 build/bin/llama-server \
-  -m /more_storage/models/granite-embedding-30m-english-Q6_K.gguf \
+  -m /home/db2demo/db2-vector-lab/models/granite-embedding-30m-english-Q6_K.gguf \
   --embedding \
   --pooling cls \
   -ub 8192 \
