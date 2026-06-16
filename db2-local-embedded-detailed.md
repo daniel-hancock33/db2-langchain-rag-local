@@ -110,7 +110,7 @@ sudo dnf install cmake gcc g++ -y
 Download the llama.cpp source code into the models directory.
 
 ```bash
-cd /more_storage/models
+cd /home/db2demo/db2-vector-lab/models
 git clone https://github.com/ggerganov/llama.cpp
 ```
 
